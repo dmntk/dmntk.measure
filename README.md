@@ -23,27 +23,11 @@ Measured coefficients are:
 - [functions coverage](./coverage/README.md),
 - [performance](./performance/README.md).
 
-Description, how these coefficients are measured can be found [below](#Methodology).
-
 ## Measured DMNTK maturity
 
 | version |     date      | compatibility | lines<br/>coverage | functions<br/>coverage | performance |
 |---------|:-------------:|:-------------:|:------------------:|:----------------------:|:-----------:|
 | 0.0.45  |  2022-01-25   |     97,2%     |       83,4%        |         78,0%          |     n/a     |
-
-## Methodology
-
-### Compatibility
-
-tbd
-
-### Coverage
-
-tbd
-
-### Performance
-
-tbd
 
 ## License
 
