@@ -17,13 +17,13 @@
 This repository contains the values of measured coefficients,
 that should be objective indicators of **DMNTK** maturity.
 
-Measured coefficients:
-- compatibility,
-- lines coverage,
-- functions coverage,
-- performance.
+Measured coefficients are:
+- [compatibility](./compatibility/README.md),
+- [lines coverage](./coverage/README.md),
+- [functions coverage](./coverage/README.md),
+- [performance](./performance/README.md).
 
-The detailed methodology how these measures are calculated is described [here](#Methodology).
+Description, how these coefficients are measured can be found [below](#Methodology).
 
 ## Measured DMNTK maturity
 
@@ -35,15 +35,15 @@ The detailed methodology how these measures are calculated is described [here](#
 
 ### Compatibility
 
-**tbd**
+tbd
 
 ### Coverage
 
-**tbd**
+tbd
 
 ### Performance
 
-**tbd**
+tbd
 
 ## License
 
