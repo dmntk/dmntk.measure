@@ -25,9 +25,9 @@ Measured coefficients are:
 
 ## Measured DMNTK maturity
 
-| version |     date      | compatibility | lines<br/>coverage | functions<br/>coverage | performance<br/>90% | performance<br/>99% |
-|---------|:-------------:|:-------------:|:------------------:|:----------------------:|:-------------------:|:-------------------:|
-| 0.0.45  |  2022-01-25   |     97,2%     |       83,4%        |         78,0%          |       < 4 ms        |       < 48 ms       |
+| version |    date    | compatibility | lines<br/>coverage | functions<br/>coverage | performance<br/>90% | performance<br/>99% |
+|---------|:----------:|:-------------:|:------------------:|:----------------------:|:-------------------:|:-------------------:|
+| 0.0.46  | 2022-01-31 |     97,2%     |       83,4%        |         78,0%          |       < 4 ms        |       < 48 ms       |
 
 ## License
 
