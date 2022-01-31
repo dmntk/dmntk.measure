@@ -1,0 +1,493 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Decision Model and Notation Toolkit - recognizer/src/recognizer.rs</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">recognizer/src</a> - recognizer.rs<span style="font-size: 80%;"> (source / <a href="recognizer.rs.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Decision Model and Notation Toolkit</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">134</td>
+            <td class="headerCovTableEntry">157</td>
+            <td class="headerCovTableEntryMed">85.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2022-01-31 09:31:12</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryMed">85.7 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span><span class="lineCov">          1 : /*</span></a>
+<a name="2"><span class="lineNum">       2 </span>            :  * DMNTK - Decision Model and Notation Toolkit</a>
+<a name="3"><span class="lineNum">       3 </span>            :  *</a>
+<a name="4"><span class="lineNum">       4 </span>            :  * MIT license</a>
+<a name="5"><span class="lineNum">       5 </span>            :  *</a>
+<a name="6"><span class="lineNum">       6 </span>            :  * Copyright (c) 2018-2022 Dariusz Depta Engos Software</a>
+<a name="7"><span class="lineNum">       7 </span>            :  *</a>
+<a name="8"><span class="lineNum">       8 </span>            :  * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</a>
+<a name="9"><span class="lineNum">       9 </span>            :  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</a>
+<a name="10"><span class="lineNum">      10 </span>            :  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</a>
+<a name="11"><span class="lineNum">      11 </span>            :  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</a>
+<a name="12"><span class="lineNum">      12 </span>            :  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</a>
+<a name="13"><span class="lineNum">      13 </span>            :  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</a>
+<a name="14"><span class="lineNum">      14 </span>            :  * SOFTWARE.</a>
+<a name="15"><span class="lineNum">      15 </span>            :  *</a>
+<a name="16"><span class="lineNum">      16 </span>            :  * Apache license, Version 2.0</a>
+<a name="17"><span class="lineNum">      17 </span>            :  *</a>
+<a name="18"><span class="lineNum">      18 </span>            :  * Copyright (c) 2018-2022 Dariusz Depta Engos Software</a>
+<a name="19"><span class="lineNum">      19 </span>            :  *</a>
+<a name="20"><span class="lineNum">      20 </span>            :  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</a>
+<a name="21"><span class="lineNum">      21 </span>            :  * you may not use this file except in compliance with the License.</a>
+<a name="22"><span class="lineNum">      22 </span>            :  * You may obtain a copy of the License at</a>
+<a name="23"><span class="lineNum">      23 </span>            :  *</a>
+<a name="24"><span class="lineNum">      24 </span>            :  *     http://www.apache.org/licenses/LICENSE-2.0</a>
+<a name="25"><span class="lineNum">      25 </span>            :  *</a>
+<a name="26"><span class="lineNum">      26 </span>            :  * Unless required by applicable law or agreed to in writing, software</a>
+<a name="27"><span class="lineNum">      27 </span>            :  * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</a>
+<a name="28"><span class="lineNum">      28 </span>            :  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<a name="29"><span class="lineNum">      29 </span>            :  * See the License for the specific language governing permissions and</a>
+<a name="30"><span class="lineNum">      30 </span>            :  * limitations under the License.</a>
+<a name="31"><span class="lineNum">      31 </span>            :  */</a>
+<a name="32"><span class="lineNum">      32 </span>            : </a>
+<a name="33"><span class="lineNum">      33 </span>            : //! Recognizer.</a>
+<a name="34"><span class="lineNum">      34 </span>            : </a>
+<a name="35"><span class="lineNum">      35 </span>            : use crate::canvas;</a>
+<a name="36"><span class="lineNum">      36 </span>            : use crate::canvas::Canvas;</a>
+<a name="37"><span class="lineNum">      37 </span>            : use crate::errors::*;</a>
+<a name="38"><span class="lineNum">      38 </span>            : use crate::plane::{HitPolicyPlacement, Plane, RuleNumbersPlacement};</a>
+<a name="39"><span class="lineNum">      39 </span>            : use dmntk_common::Result;</a>
+<a name="40"><span class="lineNum">      40 </span>            : use dmntk_model::model::{DecisionTableOrientation, HitPolicy};</a>
+<a name="41"><span class="lineNum">      41 </span>            : </a>
+<a name="42"><span class="lineNum">      42 </span>            : /// Global flag indicating if the recognizing process should be verbose</a>
+<a name="43"><span class="lineNum">      43 </span>            : /// and trace messages should be printed to standard output.</a>
+<a name="44"><span class="lineNum">      44 </span>            : /// Used only during development.</a>
+<a name="45"><span class="lineNum">      45 </span>            : const TRACE_ENABLED: bool = false;</a>
+<a name="46"><span class="lineNum">      46 </span>            : </a>
+<a name="47"><span class="lineNum">      47 </span>            : pub struct Recognizer {</a>
+<a name="48"><span class="lineNum">      48 </span>            :   /// Canvas used during recognition process.</a>
+<a name="49"><span class="lineNum">      49 </span>            :   pub canvas: Canvas,</a>
+<a name="50"><span class="lineNum">      50 </span>            :   /// Plane used during recognition process.</a>
+<a name="51"><span class="lineNum">      51 </span>            :   pub plane: Plane,</a>
+<a name="52"><span class="lineNum">      52 </span>            :   /// Optional information item name.</a>
+<a name="53"><span class="lineNum">      53 </span>            :   pub information_item_name: Option&lt;String&gt;,</a>
+<a name="54"><span class="lineNum">      54 </span>            :   /// Placement of the hit policy.</a>
+<a name="55"><span class="lineNum">      55 </span>            :   pub hit_policy_placement: HitPolicyPlacement,</a>
+<a name="56"><span class="lineNum">      56 </span>            :   /// Detected hit policy.</a>
+<a name="57"><span class="lineNum">      57 </span>            :   pub hit_policy: HitPolicy,</a>
+<a name="58"><span class="lineNum">      58 </span>            :   /// Placement of rule numbers.</a>
+<a name="59"><span class="lineNum">      59 </span>            :   pub rule_numbers_placement: RuleNumbersPlacement,</a>
+<a name="60"><span class="lineNum">      60 </span>            :   /// Detected table orientation.</a>
+<a name="61"><span class="lineNum">      61 </span>            :   pub orientation: DecisionTableOrientation,</a>
+<a name="62"><span class="lineNum">      62 </span>            :   /// Number of recognized input clauses.</a>
+<a name="63"><span class="lineNum">      63 </span>            :   pub input_clause_count: usize,</a>
+<a name="64"><span class="lineNum">      64 </span>            :   /// List of input expressions.</a>
+<a name="65"><span class="lineNum">      65 </span>            :   pub input_expressions: Vec&lt;String&gt;,</a>
+<a name="66"><span class="lineNum">      66 </span>            :   /// List of input values.</a>
+<a name="67"><span class="lineNum">      67 </span>            :   pub input_values: Vec&lt;String&gt;,</a>
+<a name="68"><span class="lineNum">      68 </span>            :   /// Matrix of input entries.</a>
+<a name="69"><span class="lineNum">      69 </span>            :   pub input_entries: Vec&lt;Vec&lt;String&gt;&gt;,</a>
+<a name="70"><span class="lineNum">      70 </span>            :   /// Number of recognized output clauses.</a>
+<a name="71"><span class="lineNum">      71 </span>            :   pub output_clause_count: usize,</a>
+<a name="72"><span class="lineNum">      72 </span>            :   /// Detected output label.</a>
+<a name="73"><span class="lineNum">      73 </span>            :   pub output_label: Option&lt;String&gt;,</a>
+<a name="74"><span class="lineNum">      74 </span>            :   /// List of output component names.</a>
+<a name="75"><span class="lineNum">      75 </span>            :   pub output_components: Vec&lt;String&gt;,</a>
+<a name="76"><span class="lineNum">      76 </span>            :   /// List of output values.</a>
+<a name="77"><span class="lineNum">      77 </span>            :   pub output_values: Vec&lt;String&gt;,</a>
+<a name="78"><span class="lineNum">      78 </span>            :   /// Matrix of output entries.</a>
+<a name="79"><span class="lineNum">      79 </span>            :   pub output_entries: Vec&lt;Vec&lt;String&gt;&gt;,</a>
+<a name="80"><span class="lineNum">      80 </span>            :   /// Number of recognized annotation clauses.</a>
+<a name="81"><span class="lineNum">      81 </span>            :   pub annotation_clause_count: usize,</a>
+<a name="82"><span class="lineNum">      82 </span>            :   /// List of annotations.</a>
+<a name="83"><span class="lineNum">      83 </span>            :   pub annotations: Vec&lt;String&gt;,</a>
+<a name="84"><span class="lineNum">      84 </span>            :   /// Matrix of annotation entries.</a>
+<a name="85"><span class="lineNum">      85 </span>            :   pub annotation_entries: Vec&lt;Vec&lt;String&gt;&gt;,</a>
+<a name="86"><span class="lineNum">      86 </span>            :   /// Number of recognized rules.</a>
+<a name="87"><span class="lineNum">      87 </span>            :   pub rule_count: usize,</a>
+<a name="88"><span class="lineNum">      88 </span>            : }</a>
+<a name="89"><span class="lineNum">      89 </span>            : </a>
+<a name="90"><span class="lineNum">      90 </span>            : impl Recognizer {</a>
+<a name="91"><span class="lineNum">      91 </span>            :   /// Recognizes the decision table defined as text.</a>
+<a name="92"><span class="lineNum">      92 </span><span class="lineCov">         15 :   pub fn recognize(text: &amp;str) -&gt; Result&lt;Recognizer&gt; {</span></a>
+<a name="93"><span class="lineNum">      93 </span><span class="lineCov">         15 :     let mut canvas = canvas::scan(text)?;</span></a>
+<a name="94"><span class="lineNum">      94 </span><span class="lineCov">         15 :     let information_item_name = canvas.information_item_name.clone();</span></a>
+<a name="95"><span class="lineNum">      95 </span><span class="lineCov">         15 :     let plane = canvas.plane()?;</span></a>
+<a name="96"><span class="lineNum">      96 </span><span class="lineCov">         15 :     let mut recognizer = Recognizer {</span></a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">         15 :       canvas,</span></a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">         15 :       plane,</span></a>
+<a name="99"><span class="lineNum">      99 </span><span class="lineCov">         15 :       information_item_name,</span></a>
+<a name="100"><span class="lineNum">     100 </span><span class="lineCov">         15 :       hit_policy_placement: HitPolicyPlacement::NotPresent,</span></a>
+<a name="101"><span class="lineNum">     101 </span><span class="lineCov">         15 :       hit_policy: HitPolicy::Unique,</span></a>
+<a name="102"><span class="lineNum">     102 </span><span class="lineCov">         15 :       rule_numbers_placement: RuleNumbersPlacement::NotPresent,</span></a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">         15 :       orientation: DecisionTableOrientation::CrossTable,</span></a>
+<a name="104"><span class="lineNum">     104 </span>            :       input_clause_count: 0,</a>
+<a name="105"><span class="lineNum">     105 </span><span class="lineCov">         15 :       input_expressions: vec![],</span></a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">         15 :       input_values: vec![],</span></a>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">         15 :       input_entries: vec![],</span></a>
+<a name="108"><span class="lineNum">     108 </span>            :       output_clause_count: 0,</a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">         15 :       output_label: None,</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">         15 :       output_components: vec![],</span></a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">         15 :       output_values: vec![],</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">         15 :       output_entries: vec![],</span></a>
+<a name="113"><span class="lineNum">     113 </span>            :       annotation_clause_count: 0,</a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">         15 :       annotations: vec![],</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">         15 :       annotation_entries: vec![],</span></a>
+<a name="116"><span class="lineNum">     116 </span>            :       rule_count: 0,</a>
+<a name="117"><span class="lineNum">     117 </span>            :     };</a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineCov">         15 :     recognizer.recognize_table_components()?;</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">         14 :     recognizer.trace();</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">         14 :     Ok(recognizer)</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">         15 :   }</span></a>
+<a name="122"><span class="lineNum">     122 </span>            : </a>
+<a name="123"><span class="lineNum">     123 </span>            :   /// Recognizes the decision table components based on table orientation.</a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">         15 :   pub fn recognize_table_components(&amp;mut self) -&gt; Result&lt;()&gt; {</span></a>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">         15 :     self.recognize_orientation()?;</span></a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineCov">         15 :     match self.orientation {</span></a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineCov">          9 :       DecisionTableOrientation::RuleAsRow =&gt; {</span></a>
+<a name="128"><span class="lineNum">     128 </span><span class="lineCov">          9 :         self.plane.remove_first_column();</span></a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineCov">          9 :         self.recognize_horizontal_table()?;</span></a>
+<a name="130"><span class="lineNum">     130 </span>            :       }</a>
+<a name="131"><span class="lineNum">     131 </span><span class="lineCov">          5 :       DecisionTableOrientation::RuleAsColumn =&gt; {</span></a>
+<a name="132"><span class="lineNum">     132 </span><span class="lineCov">          5 :         self.plane.remove_last_row();</span></a>
+<a name="133"><span class="lineNum">     133 </span><span class="lineCov">          5 :         self.plane.pivot();</span></a>
+<a name="134"><span class="lineNum">     134 </span><span class="lineCov">          5 :         self.recognize_horizontal_table()?;</span></a>
+<a name="135"><span class="lineNum">     135 </span>            :       }</a>
+<a name="136"><span class="lineNum">     136 </span><span class="lineNoCov">          0 :       DecisionTableOrientation::CrossTable =&gt; {</span></a>
+<a name="137"><span class="lineNum">     137 </span><span class="lineCov">          1 :         self.recognize_crosstab_table()?;</span></a>
+<a name="138"><span class="lineNum">     138 </span>            :       }</a>
+<a name="139"><span class="lineNum">     139 </span>            :     }</a>
+<a name="140"><span class="lineNum">     140 </span><span class="lineCov">         14 :     Ok(())</span></a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineCov">         15 :   }</span></a>
+<a name="142"><span class="lineNum">     142 </span>            : </a>
+<a name="143"><span class="lineNum">     143 </span>            :   /// Recognizes decision table components from horizontally oriented plane.</a>
+<a name="144"><span class="lineNum">     144 </span>            :   /// Vertical decision tables are pivot of horizontal decision tables.</a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">         14 :   fn recognize_horizontal_table(&amp;mut self) -&gt; Result&lt;()&gt; {</span></a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineCov">         14 :     let r = self.plane.horz_input_clause_rect()?;</span></a>
+<a name="147"><span class="lineNum">     147 </span>            :     // assign the number of recognized input clauses</a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineCov">         14 :     self.input_clause_count = r.width();</span></a>
+<a name="149"><span class="lineNum">     149 </span>            :     // detect if the input values are present in decision table</a>
+<a name="150"><span class="lineNum">     150 </span><span class="lineCov">         14 :     let input_values_present = match r.height() {</span></a>
+<a name="151"><span class="lineNum">     151 </span>            :       1 =&gt; {</a>
+<a name="152"><span class="lineNum">     152 </span>            :         // by single row there are no input values, only input expressions</a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineCov">          7 :         false</span></a>
+<a name="154"><span class="lineNum">     154 </span>            :       }</a>
+<a name="155"><span class="lineNum">     155 </span>            :       2 =&gt; {</a>
+<a name="156"><span class="lineNum">     156 </span>            :         // by two rows when regions in each column are the same, then there are no input/output values</a>
+<a name="157"><span class="lineNum">     157 </span>            :         // otherwise the are input/output values provided</a>
+<a name="158"><span class="lineNum">     158 </span><span class="lineCov">          4 :         !self.plane.equal_regions_in_columns(&amp;r)?</span></a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">          4 :       }</span></a>
+<a name="160"><span class="lineNum">     160 </span>            :       3 =&gt; {</a>
+<a name="161"><span class="lineNum">     161 </span>            :         // by three rows there must be always input/output values provided, just checking if the</a>
+<a name="162"><span class="lineNum">     162 </span>            :         // two upper rows contains the same regions - input expressions</a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineCov">          3 :         if !self.plane.unique_regions_in_columns(&amp;r.inc_top(1))? {</span></a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineNoCov">          0 :           return Err(invalid_input_expressions());</span></a>
+<a name="165"><span class="lineNum">     165 </span>            :         }</a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineCov">          3 :         true</span></a>
+<a name="167"><span class="lineNum">     167 </span>            :       }</a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineNoCov">          0 :       _ =&gt; return Err(too_many_rows_in_input_clause()),</span></a>
+<a name="169"><span class="lineNum">     169 </span>            :     };</a>
+<a name="170"><span class="lineNum">     170 </span>            :     // retrieve input expressions from plane</a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineCov">         42 :     for col in r.left..r.right {</span></a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineCov">         28 :       self.input_expressions.push(self.plane.region_text(0, col)?);</span></a>
+<a name="173"><span class="lineNum">     173 </span>            :     }</a>
+<a name="174"><span class="lineNum">     174 </span>            :     // retrieve input values from plane</a>
+<a name="175"><span class="lineNum">     175 </span><span class="lineCov">         14 :     if input_values_present {</span></a>
+<a name="176"><span class="lineNum">     176 </span><span class="lineCov">         18 :       for col in r.left..r.right {</span></a>
+<a name="177"><span class="lineNum">     177 </span><span class="lineCov">         12 :         self.input_values.push(self.plane.region_text(r.bottom - 1, col)?);</span></a>
+<a name="178"><span class="lineNum">     178 </span>            :       }</a>
+<a name="179"><span class="lineNum">     179 </span>            :     }</a>
+<a name="180"><span class="lineNum">     180 </span>            :     // retrieve input entries from plane</a>
+<a name="181"><span class="lineNum">     181 </span><span class="lineCov">         14 :     let r = self.plane.horz_input_entries_rect()?;</span></a>
+<a name="182"><span class="lineNum">     182 </span><span class="lineCov">         65 :     for row in r.top..r.bottom {</span></a>
+<a name="183"><span class="lineNum">     183 </span><span class="lineCov">         51 :       self.input_entries.push(vec![]);</span></a>
+<a name="184"><span class="lineNum">     184 </span><span class="lineCov">        153 :       for col in r.left..r.right {</span></a>
+<a name="185"><span class="lineNum">     185 </span><span class="lineCov">        102 :         self.input_entries.last_mut().unwrap().push(self.plane.region_text(row, col)?);</span></a>
+<a name="186"><span class="lineNum">     186 </span>            :       }</a>
+<a name="187"><span class="lineNum">     187 </span>            :     }</a>
+<a name="188"><span class="lineNum">     188 </span>            :     // retrieve output clause</a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">         14 :     let r = self.plane.horz_output_clause_rect()?;</span></a>
+<a name="190"><span class="lineNum">     190 </span>            :     // assign the number of recognized output clauses</a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">         14 :     self.output_clause_count = r.width();</span></a>
+<a name="192"><span class="lineNum">     192 </span><span class="lineCov">         14 :     match r.width() {</span></a>
+<a name="193"><span class="lineNum">     193 </span>            :       0 =&gt; {</a>
+<a name="194"><span class="lineNum">     194 </span>            :         // no output columns =&gt; report an error</a>
+<a name="195"><span class="lineNum">     195 </span><span class="lineNoCov">          0 :         return Err(no_output_clause());</span></a>
+<a name="196"><span class="lineNum">     196 </span>            :       }</a>
+<a name="197"><span class="lineNum">     197 </span>            :       1 =&gt; {</a>
+<a name="198"><span class="lineNum">     198 </span>            :         // single output</a>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">         10 :         match r.height() {</span></a>
+<a name="200"><span class="lineNum">     200 </span><span class="lineCov">          7 :           1 =&gt; {</span></a>
+<a name="201"><span class="lineNum">     201 </span>            :             // only output label</a>
+<a name="202"><span class="lineNum">     202 </span><span class="lineCov">          7 :             self.output_label = Some(self.plane.region_text(r.top, r.left)?);</span></a>
+<a name="203"><span class="lineNum">     203 </span>            :           }</a>
+<a name="204"><span class="lineNum">     204 </span>            :           2 =&gt; {</a>
+<a name="205"><span class="lineNum">     205 </span><span class="lineCov">          3 :             if input_values_present &amp;&amp; !self.plane.equal_regions(&amp;r)? {</span></a>
+<a name="206"><span class="lineNum">     206 </span>            :               // output label and output values</a>
+<a name="207"><span class="lineNum">     207 </span><span class="lineCov">          3 :               self.output_label = Some(self.plane.region_text(r.top, r.left)?);</span></a>
+<a name="208"><span class="lineNum">     208 </span><span class="lineCov">          3 :               self.output_values.push(self.plane.region_text(r.top + 1, r.left)?)</span></a>
+<a name="209"><span class="lineNum">     209 </span>            :             } else {</a>
+<a name="210"><span class="lineNum">     210 </span>            :               // invalid output clause</a>
+<a name="211"><span class="lineNum">     211 </span><span class="lineNoCov">          0 :               return Err(plane_invalid_output_clause());</span></a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineCov">          3 :             }</span></a>
+<a name="213"><span class="lineNum">     213 </span>            :           }</a>
+<a name="214"><span class="lineNum">     214 </span><span class="lineNoCov">          0 :           _ =&gt; return Err(too_many_rows_in_input_clause()),</span></a>
+<a name="215"><span class="lineNum">     215 </span>            :         }</a>
+<a name="216"><span class="lineNum">     216 </span>            :       }</a>
+<a name="217"><span class="lineNum">     217 </span>            :       _ =&gt; {</a>
+<a name="218"><span class="lineNum">     218 </span>            :         // multiple outputs</a>
+<a name="219"><span class="lineNum">     219 </span><span class="lineCov">          4 :         match r.height() {</span></a>
+<a name="220"><span class="lineNum">     220 </span>            :           1 =&gt; {</a>
+<a name="221"><span class="lineNum">     221 </span>            :             // only component names</a>
+<a name="222"><span class="lineNum">     222 </span><span class="lineNoCov">          0 :             for col in r.left..r.right {</span></a>
+<a name="223"><span class="lineNum">     223 </span><span class="lineNoCov">          0 :               self.output_components.push(self.plane.region_text(r.top, col)?);</span></a>
+<a name="224"><span class="lineNum">     224 </span>            :             }</a>
+<a name="225"><span class="lineNum">     225 </span>            :           }</a>
+<a name="226"><span class="lineNum">     226 </span>            :           2 =&gt; {</a>
+<a name="227"><span class="lineNum">     227 </span><span class="lineCov">          1 :             if input_values_present {</span></a>
+<a name="228"><span class="lineNum">     228 </span>            :               // component names and output values</a>
+<a name="229"><span class="lineNum">     229 </span><span class="lineNoCov">          0 :               for col in r.left..r.right {</span></a>
+<a name="230"><span class="lineNum">     230 </span><span class="lineNoCov">          0 :                 self.output_components.push(self.plane.region_text(r.top, col)?);</span></a>
+<a name="231"><span class="lineNum">     231 </span>            :               }</a>
+<a name="232"><span class="lineNum">     232 </span><span class="lineNoCov">          0 :               for col in r.left..r.right {</span></a>
+<a name="233"><span class="lineNum">     233 </span><span class="lineNoCov">          0 :                 self.output_values.push(self.plane.region_text(r.top + 1, col)?);</span></a>
+<a name="234"><span class="lineNum">     234 </span>            :               }</a>
+<a name="235"><span class="lineNum">     235 </span>            :             } else {</a>
+<a name="236"><span class="lineNum">     236 </span>            :               // output label and component names</a>
+<a name="237"><span class="lineNum">     237 </span><span class="lineCov">          1 :               self.output_label = Some(self.plane.region_text(r.top, r.left)?);</span></a>
+<a name="238"><span class="lineNum">     238 </span><span class="lineCov">          3 :               for col in r.left..r.right {</span></a>
+<a name="239"><span class="lineNum">     239 </span><span class="lineCov">          2 :                 self.output_components.push(self.plane.region_text(r.top + 1, col)?);</span></a>
+<a name="240"><span class="lineNum">     240 </span>            :               }</a>
+<a name="241"><span class="lineNum">     241 </span>            :             }</a>
+<a name="242"><span class="lineNum">     242 </span>            :           }</a>
+<a name="243"><span class="lineNum">     243 </span>            :           3 =&gt; {</a>
+<a name="244"><span class="lineNum">     244 </span>            :             // output label, component names and output values</a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">          3 :             self.output_label = Some(self.plane.region_text(r.top, r.left)?);</span></a>
+<a name="246"><span class="lineNum">     246 </span><span class="lineCov">          9 :             for col in r.left..r.right {</span></a>
+<a name="247"><span class="lineNum">     247 </span><span class="lineCov">          6 :               self.output_components.push(self.plane.region_text(r.top + 1, col)?);</span></a>
+<a name="248"><span class="lineNum">     248 </span>            :             }</a>
+<a name="249"><span class="lineNum">     249 </span><span class="lineCov">          9 :             for col in r.left..r.right {</span></a>
+<a name="250"><span class="lineNum">     250 </span><span class="lineCov">          6 :               self.output_values.push(self.plane.region_text(r.top + 2, col)?);</span></a>
+<a name="251"><span class="lineNum">     251 </span>            :             }</a>
+<a name="252"><span class="lineNum">     252 </span>            :           }</a>
+<a name="253"><span class="lineNum">     253 </span><span class="lineNoCov">          0 :           _ =&gt; return Err(too_many_rows_in_input_clause()),</span></a>
+<a name="254"><span class="lineNum">     254 </span>            :         }</a>
+<a name="255"><span class="lineNum">     255 </span>            :       }</a>
+<a name="256"><span class="lineNum">     256 </span>            :     }</a>
+<a name="257"><span class="lineNum">     257 </span>            :     // retrieve output entries</a>
+<a name="258"><span class="lineNum">     258 </span><span class="lineCov">         14 :     let r = self.plane.horz_output_entries_rect()?;</span></a>
+<a name="259"><span class="lineNum">     259 </span><span class="lineCov">         65 :     for row in r.top..r.bottom {</span></a>
+<a name="260"><span class="lineNum">     260 </span><span class="lineCov">         51 :       self.output_entries.push(vec![]);</span></a>
+<a name="261"><span class="lineNum">     261 </span><span class="lineCov">        120 :       for col in r.left..r.right {</span></a>
+<a name="262"><span class="lineNum">     262 </span><span class="lineCov">         69 :         self.output_entries.last_mut().unwrap().push(self.plane.region_text(row, col)?);</span></a>
+<a name="263"><span class="lineNum">     263 </span>            :       }</a>
+<a name="264"><span class="lineNum">     264 </span>            :     }</a>
+<a name="265"><span class="lineNum">     265 </span>            :     // retrieve annotation clauses</a>
+<a name="266"><span class="lineNum">     266 </span><span class="lineCov">         14 :     let r = self.plane.horz_annotation_clauses_rect()?;</span></a>
+<a name="267"><span class="lineNum">     267 </span>            :     // assign the number of recognized annotation clauses</a>
+<a name="268"><span class="lineNum">     268 </span><span class="lineCov">         14 :     self.annotation_clause_count = r.width();</span></a>
+<a name="269"><span class="lineNum">     269 </span><span class="lineCov">         22 :     for col in r.left..r.right {</span></a>
+<a name="270"><span class="lineNum">     270 </span><span class="lineCov">          8 :       self.annotations.push(self.plane.region_text(r.top, col)?);</span></a>
+<a name="271"><span class="lineNum">     271 </span>            :     }</a>
+<a name="272"><span class="lineNum">     272 </span>            :     // retrieve annotation entries</a>
+<a name="273"><span class="lineNum">     273 </span><span class="lineCov">         14 :     let r = self.plane.horz_annotation_entries_rect()?;</span></a>
+<a name="274"><span class="lineNum">     274 </span><span class="lineCov">         32 :     for row in r.top..r.bottom {</span></a>
+<a name="275"><span class="lineNum">     275 </span><span class="lineCov">         18 :       self.annotation_entries.push(vec![]);</span></a>
+<a name="276"><span class="lineNum">     276 </span><span class="lineCov">         54 :       for col in r.left..r.right {</span></a>
+<a name="277"><span class="lineNum">     277 </span><span class="lineCov">         36 :         self.annotation_entries.last_mut().unwrap().push(self.plane.region_text(row, col)?);</span></a>
+<a name="278"><span class="lineNum">     278 </span>            :       }</a>
+<a name="279"><span class="lineNum">     279 </span>            :     }</a>
+<a name="280"><span class="lineNum">     280 </span><span class="lineCov">         14 :     Ok(())</span></a>
+<a name="281"><span class="lineNum">     281 </span><span class="lineCov">         14 :   }</span></a>
+<a name="282"><span class="lineNum">     282 </span>            : </a>
+<a name="283"><span class="lineNum">     283 </span>            :   /// Recognizes decision table components from crosstab oriented plane.</a>
+<a name="284"><span class="lineNum">     284 </span><span class="lineCov">          1 :   fn recognize_crosstab_table(&amp;mut self) -&gt; Result&lt;()&gt; {</span></a>
+<a name="285"><span class="lineNum">     285 </span>            :     // TODO implement crosstab recognition</a>
+<a name="286"><span class="lineNum">     286 </span><span class="lineCov">          1 :     self.rule_count = 0; // TODO properly recognize the total number of rules!</span></a>
+<a name="287"><span class="lineNum">     287 </span><span class="lineCov">          1 :     Err(recognizing_cross_tab_not_supported_yet())</span></a>
+<a name="288"><span class="lineNum">     288 </span><span class="lineCov">          1 :   }</span></a>
+<a name="289"><span class="lineNum">     289 </span>            : </a>
+<a name="290"><span class="lineNum">     290 </span>            :   /// Recognizes the orientation of decision table.</a>
+<a name="291"><span class="lineNum">     291 </span><span class="lineCov">         15 :   fn recognize_orientation(&amp;mut self) -&gt; Result&lt;()&gt; {</span></a>
+<a name="292"><span class="lineNum">     292 </span><span class="lineCov">         15 :     self.hit_policy_placement = self.plane.recognize_hit_policy_placement()?;</span></a>
+<a name="293"><span class="lineNum">     293 </span><span class="lineCov">         15 :     self.rule_numbers_placement = self.plane.recognize_rule_numbers_placement()?;</span></a>
+<a name="294"><span class="lineNum">     294 </span><span class="lineCov">         15 :     if self.plane.horizontal_double_crossing().is_some() {</span></a>
+<a name="295"><span class="lineNum">     295 </span>            :       // horizontal orientation</a>
+<a name="296"><span class="lineNum">     296 </span><span class="lineCov">          1 :       if self.hit_policy_placement.is_top_left() {</span></a>
+<a name="297"><span class="lineNum">     297 </span><span class="lineCov">          2 :         if self.rule_numbers_placement.is_left_below() {</span></a>
+<a name="298"><span class="lineNum">     298 </span><span class="lineCov">          1 :           self.hit_policy = self.hit_policy_placement.hit_policy();</span></a>
+<a name="299"><span class="lineNum">     299 </span><span class="lineCov">          1 :           self.orientation = DecisionTableOrientation::RuleAsRow;</span></a>
+<a name="300"><span class="lineNum">     300 </span><span class="lineCov">          1 :           self.rule_count = self.rule_numbers_placement.rule_count();</span></a>
+<a name="301"><span class="lineNum">     301 </span><span class="lineCov">          1 :           Ok(())</span></a>
+<a name="302"><span class="lineNum">     302 </span>            :         } else {</a>
+<a name="303"><span class="lineNum">     303 </span><span class="lineNoCov">          0 :           Err(expected_left_below_rule_numbers_placement())</span></a>
+<a name="304"><span class="lineNum">     304 </span>            :         }</a>
+<a name="305"><span class="lineNum">     305 </span>            :       } else {</a>
+<a name="306"><span class="lineNum">     306 </span><span class="lineNoCov">          0 :         Err(expected_top_left_hit_policy_placement())</span></a>
+<a name="307"><span class="lineNum">     307 </span>            :       }</a>
+<a name="308"><span class="lineNum">     308 </span><span class="lineCov">         14 :     } else if self.plane.vertical_double_crossing().is_some() {</span></a>
+<a name="309"><span class="lineNum">     309 </span>            :       // vertical orientation</a>
+<a name="310"><span class="lineNum">     310 </span><span class="lineCov">          3 :       if self.hit_policy_placement.is_bottom_left() {</span></a>
+<a name="311"><span class="lineNum">     311 </span><span class="lineCov">          6 :         if self.rule_numbers_placement.is_right_after() {</span></a>
+<a name="312"><span class="lineNum">     312 </span><span class="lineCov">          3 :           self.hit_policy = self.hit_policy_placement.hit_policy();</span></a>
+<a name="313"><span class="lineNum">     313 </span><span class="lineCov">          3 :           self.orientation = DecisionTableOrientation::RuleAsColumn;</span></a>
+<a name="314"><span class="lineNum">     314 </span><span class="lineCov">          3 :           self.rule_count = self.rule_numbers_placement.rule_count();</span></a>
+<a name="315"><span class="lineNum">     315 </span><span class="lineCov">          3 :           Ok(())</span></a>
+<a name="316"><span class="lineNum">     316 </span>            :         } else {</a>
+<a name="317"><span class="lineNum">     317 </span><span class="lineNoCov">          0 :           Err(expected_right_after_rule_numbers_placement())</span></a>
+<a name="318"><span class="lineNum">     318 </span>            :         }</a>
+<a name="319"><span class="lineNum">     319 </span>            :       } else {</a>
+<a name="320"><span class="lineNum">     320 </span><span class="lineNoCov">          0 :         Err(expected_bottom_left_hit_policy_placement())</span></a>
+<a name="321"><span class="lineNum">     321 </span>            :       }</a>
+<a name="322"><span class="lineNum">     322 </span>            :     } else {</a>
+<a name="323"><span class="lineNum">     323 </span>            :       // detect the orientation</a>
+<a name="324"><span class="lineNum">     324 </span><span class="lineCov">         11 :       match self.hit_policy_placement {</span></a>
+<a name="325"><span class="lineNum">     325 </span>            :         HitPolicyPlacement::TopLeft(_) =&gt; {</a>
+<a name="326"><span class="lineNum">     326 </span><span class="lineCov">         16 :           if self.rule_numbers_placement.is_left_below() {</span></a>
+<a name="327"><span class="lineNum">     327 </span><span class="lineCov">          8 :             self.hit_policy = self.hit_policy_placement.hit_policy();</span></a>
+<a name="328"><span class="lineNum">     328 </span><span class="lineCov">          8 :             self.orientation = DecisionTableOrientation::RuleAsRow;</span></a>
+<a name="329"><span class="lineNum">     329 </span><span class="lineCov">          8 :             self.rule_count = self.rule_numbers_placement.rule_count();</span></a>
+<a name="330"><span class="lineNum">     330 </span><span class="lineCov">          8 :             Ok(())</span></a>
+<a name="331"><span class="lineNum">     331 </span>            :           } else {</a>
+<a name="332"><span class="lineNum">     332 </span><span class="lineNoCov">          0 :             Err(expected_left_below_rule_numbers_placement())</span></a>
+<a name="333"><span class="lineNum">     333 </span>            :           }</a>
+<a name="334"><span class="lineNum">     334 </span>            :         }</a>
+<a name="335"><span class="lineNum">     335 </span>            :         HitPolicyPlacement::BottomLeft(_) =&gt; {</a>
+<a name="336"><span class="lineNum">     336 </span><span class="lineCov">          4 :           if self.rule_numbers_placement.is_right_after() {</span></a>
+<a name="337"><span class="lineNum">     337 </span><span class="lineCov">          2 :             self.hit_policy = self.hit_policy_placement.hit_policy();</span></a>
+<a name="338"><span class="lineNum">     338 </span><span class="lineCov">          2 :             self.orientation = DecisionTableOrientation::RuleAsColumn;</span></a>
+<a name="339"><span class="lineNum">     339 </span><span class="lineCov">          2 :             self.rule_count = self.rule_numbers_placement.rule_count();</span></a>
+<a name="340"><span class="lineNum">     340 </span><span class="lineCov">          2 :             Ok(())</span></a>
+<a name="341"><span class="lineNum">     341 </span>            :           } else {</a>
+<a name="342"><span class="lineNum">     342 </span><span class="lineNoCov">          0 :             Err(expected_right_after_rule_numbers_placement())</span></a>
+<a name="343"><span class="lineNum">     343 </span>            :           }</a>
+<a name="344"><span class="lineNum">     344 </span>            :         }</a>
+<a name="345"><span class="lineNum">     345 </span>            :         HitPolicyPlacement::NotPresent =&gt; {</a>
+<a name="346"><span class="lineNum">     346 </span><span class="lineCov">          2 :           if self.rule_numbers_placement.is_not_present() {</span></a>
+<a name="347"><span class="lineNum">     347 </span><span class="lineCov">          1 :             self.hit_policy = self.hit_policy_placement.hit_policy();</span></a>
+<a name="348"><span class="lineNum">     348 </span><span class="lineCov">          1 :             self.orientation = DecisionTableOrientation::CrossTable;</span></a>
+<a name="349"><span class="lineNum">     349 </span><span class="lineCov">          1 :             self.rule_count = 0; // will be recognized later</span></a>
+<a name="350"><span class="lineNum">     350 </span><span class="lineCov">          1 :             Ok(())</span></a>
+<a name="351"><span class="lineNum">     351 </span>            :           } else {</a>
+<a name="352"><span class="lineNum">     352 </span><span class="lineNoCov">          0 :             Err(expected_no_rule_numbers_present())</span></a>
+<a name="353"><span class="lineNum">     353 </span>            :           }</a>
+<a name="354"><span class="lineNum">     354 </span>            :         }</a>
+<a name="355"><span class="lineNum">     355 </span>            :       }</a>
+<a name="356"><span class="lineNum">     356 </span>            :     }</a>
+<a name="357"><span class="lineNum">     357 </span><span class="lineCov">         15 :   }</span></a>
+<a name="358"><span class="lineNum">     358 </span>            : </a>
+<a name="359"><span class="lineNum">     359 </span>            :   /// Traces the result of decision table recognition.</a>
+<a name="360"><span class="lineNum">     360 </span><span class="lineCov">         15 :   pub fn trace(&amp;self) {</span></a>
+<a name="361"><span class="lineNum">     361 </span>            :     if TRACE_ENABLED {</a>
+<a name="362"><span class="lineNum">     362 </span>            :       print!(&quot;\n&gt;&gt; input expressions:\n|&quot;);</a>
+<a name="363"><span class="lineNum">     363 </span>            :       for text in &amp;self.input_expressions {</a>
+<a name="364"><span class="lineNum">     364 </span>            :         self.trace_line(text);</a>
+<a name="365"><span class="lineNum">     365 </span>            :       }</a>
+<a name="366"><span class="lineNum">     366 </span>            :       print!(&quot;\n\n&gt;&gt; input values:\n|&quot;);</a>
+<a name="367"><span class="lineNum">     367 </span>            :       for text in &amp;self.input_values {</a>
+<a name="368"><span class="lineNum">     368 </span>            :         self.trace_line(text);</a>
+<a name="369"><span class="lineNum">     369 </span>            :       }</a>
+<a name="370"><span class="lineNum">     370 </span>            :       print!(&quot;\n\n&gt;&gt; input entries:\n&quot;);</a>
+<a name="371"><span class="lineNum">     371 </span>            :       for row in &amp;self.input_entries {</a>
+<a name="372"><span class="lineNum">     372 </span>            :         print!(&quot;|&quot;);</a>
+<a name="373"><span class="lineNum">     373 </span>            :         for text in row {</a>
+<a name="374"><span class="lineNum">     374 </span>            :           self.trace_line(text);</a>
+<a name="375"><span class="lineNum">     375 </span>            :         }</a>
+<a name="376"><span class="lineNum">     376 </span>            :         println!()</a>
+<a name="377"><span class="lineNum">     377 </span>            :       }</a>
+<a name="378"><span class="lineNum">     378 </span>            :       print!(&quot;\n&gt;&gt; output label:\n|&quot;);</a>
+<a name="379"><span class="lineNum">     379 </span>            :       if let Some(text) = &amp;self.output_label {</a>
+<a name="380"><span class="lineNum">     380 </span>            :         self.trace_line(text);</a>
+<a name="381"><span class="lineNum">     381 </span>            :       }</a>
+<a name="382"><span class="lineNum">     382 </span>            :       print!(&quot;\n\n&gt;&gt; output components:\n|&quot;);</a>
+<a name="383"><span class="lineNum">     383 </span>            :       for text in &amp;self.output_components {</a>
+<a name="384"><span class="lineNum">     384 </span>            :         self.trace_line(text);</a>
+<a name="385"><span class="lineNum">     385 </span>            :       }</a>
+<a name="386"><span class="lineNum">     386 </span>            :       print!(&quot;\n\n&gt;&gt; output values:\n|&quot;);</a>
+<a name="387"><span class="lineNum">     387 </span>            :       for text in &amp;self.output_values {</a>
+<a name="388"><span class="lineNum">     388 </span>            :         self.trace_line(text);</a>
+<a name="389"><span class="lineNum">     389 </span>            :       }</a>
+<a name="390"><span class="lineNum">     390 </span>            :       print!(&quot;\n\n&gt;&gt; output entries:\n&quot;);</a>
+<a name="391"><span class="lineNum">     391 </span>            :       for row in &amp;self.output_entries {</a>
+<a name="392"><span class="lineNum">     392 </span>            :         print!(&quot;|&quot;);</a>
+<a name="393"><span class="lineNum">     393 </span>            :         for text in row {</a>
+<a name="394"><span class="lineNum">     394 </span>            :           self.trace_line(text);</a>
+<a name="395"><span class="lineNum">     395 </span>            :         }</a>
+<a name="396"><span class="lineNum">     396 </span>            :         println!()</a>
+<a name="397"><span class="lineNum">     397 </span>            :       }</a>
+<a name="398"><span class="lineNum">     398 </span>            :       print!(&quot;\n\n&gt;&gt; annotations:\n|&quot;);</a>
+<a name="399"><span class="lineNum">     399 </span>            :       for text in &amp;self.annotations {</a>
+<a name="400"><span class="lineNum">     400 </span>            :         self.trace_line(text);</a>
+<a name="401"><span class="lineNum">     401 </span>            :       }</a>
+<a name="402"><span class="lineNum">     402 </span>            :       print!(&quot;\n\n&gt;&gt; annotation entries:\n&quot;);</a>
+<a name="403"><span class="lineNum">     403 </span>            :       for row in &amp;self.annotation_entries {</a>
+<a name="404"><span class="lineNum">     404 </span>            :         print!(&quot;|&quot;);</a>
+<a name="405"><span class="lineNum">     405 </span>            :         for text in row {</a>
+<a name="406"><span class="lineNum">     406 </span>            :           self.trace_line(text);</a>
+<a name="407"><span class="lineNum">     407 </span>            :         }</a>
+<a name="408"><span class="lineNum">     408 </span>            :         println!()</a>
+<a name="409"><span class="lineNum">     409 </span>            :       }</a>
+<a name="410"><span class="lineNum">     410 </span>            :     }</a>
+<a name="411"><span class="lineNum">     411 </span><span class="lineCov">         15 :   }</span></a>
+<a name="412"><span class="lineNum">     412 </span>            : </a>
+<a name="413"><span class="lineNum">     413 </span>            :   /// Displays a single tracing line.</a>
+<a name="414"><span class="lineNum">     414 </span><span class="lineNoCov">          0 :   fn trace_line(&amp;self, text: &amp;str) {</span></a>
+<a name="415"><span class="lineNum">     415 </span><span class="lineNoCov">          0 :     print!(&quot;{}|&quot;, text.replace('\n', &quot; &quot;).trim());</span></a>
+<a name="416"><span class="lineNum">     416 </span><span class="lineNoCov">          0 :   }</span></a>
+<a name="417"><span class="lineNum">     417 </span>            : }</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.14</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
